@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пчелиная империя 🐝</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #fff9dc;
+            color: #493719;
+            overflow-x: hidden;
+        }
+
+        /* МЕНЮ */
+        header {
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffe36e;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 15px #d9a92730;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #493719;
+            font-weight: 800;
+            transition: .3s;
+        }
+
+        nav a:hover {
+            color: #e47c44;
+        }
+
+        /* ГЛАВНЫЙ ЭКРАН */
+        .hero {
+            min-height: 650px;
+            padding: 100px 8%;
+            text-align: center;
+            background: linear-gradient(135deg, #ffe36e, #ffb8c9, #a8e7ed);
+        }
+
+        .hero h1 {
+            font-size: clamp(45px, 8vw, 90px);
+            font-weight: 900;
+            line-height: 1.1;
+            color: #533d1d;
+            margin: 25px 0;
+        }
+
+        .hero h1 span {
+            color: #e47c44;
+        }
+
+        .hero p {
+            max-width: 720px;
+            margin: auto;
+            font-size: 20px;
+            line-height: 1.8;
+        }
+
+        .bee {
+            font-size: 55px;
+            display: inline-block;
+            animation: fly 3s ease-in-out infinite;
+        }
+
+        @keyframes fly {
+            0%, 100% {
+                transform: translateY(0) rotate(-8deg);
+            }
+
+            50% {
+                transform: translateY(-18px) rotate(8deg);
+            }
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 32px;
+            background: white;
+            color: #60451d;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 900;
+            box-shadow: 0 7px 0 #e8bd4d;
+            transition: .3s;
+        }
+
+        .button:hover {
+            transform: translateY(-5px);
+        }
+
+        /* ОБЩИЕ СЕКЦИИ */
+        section {
+            padding: 85px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(30px, 5vw, 44px);
+            margin-bottom: 18px;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 45px;
+            color: #997a43;
+            font-size: 18px;
+        }
+
+        /* ИСТОРИЯ */
+        .story {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            font-size: 19px;
+            line-height: 1.9;
+            box-shadow: 0 12px 35px #d8b44b30;
+        }
+
+        /* ГЕРОИ */
+        .people {
+            background: #d8f4f4;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 30px 22px;
+            text-align: center;
+            box-shadow: 0 10px 25px #6daebd25;
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) rotate(-1deg);
+        }
+
+        .card .emoji {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #806b4a;
+            line-height: 1.6;
+        }
+
+        /* ГАЛЕРЕЯ */
+        .gallery {
+            background: #fff9dc;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .gallery-item {
+            background: white;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px #d8b44b30;
+            transition: .3s;
+            overflow: hidden;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px) rotate(-1deg);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 18px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .gallery-item p {
+            text-align: center;
+            padding: 12px 5px 5px;
+            font-weight: 900;
+            color: #80602b;
+        }
+
+        /* ОКНО ФОТОГРАФИИ */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(35, 28, 15, 0.92);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 20px;
+        }
+
+        .lightbox button {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* ФАКТЫ */
+        .facts {
+            background: #fff0c1;
+        }
+
+        .fact {
+            max-width: 750px;
+            margin: 15px auto;
+            padding: 22px;
+            background: white;
+            border-radius: 20px;
+            font-size: 19px;
+            font-weight: 800;
+            transition: .3s;
+        }
+
+        .fact:hover {
+            transform: translateX(8px);
+        }
+
+        /* ДЕВИЗ */
+        .motto {
+            text-align: center;
+            background: #ffb8c9;
+            padding: 85px 8%;
+        }
+
+        .motto h2 {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(28px, 5vw, 45px);
+            color: #74415b;
+            line-height: 1.5;
+        }
+
+        /* ПОДВАЛ */
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            background: #ffe36e;
+            font-weight: 800;
+            line-height: 1.7;
+        }
+
+        /* ТЕЛЕФОНЫ */
+        @media(max-width: 650px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 16px 5%;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+
+            .hero {
+                padding: 80px 6%;
+                min-height: auto;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            section {
+                padding: 65px 6%;
+            }
+
+            .story {
+                padding: 25px;
+                font-size: 17px;
+            }
+
+            .gallery-item img {
+                height: 230px;
+            }
+
+            .cards {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .card {
+                padding: 22px 15px;
+            }
+
+            .card .emoji {
+                font-size: 48px;
+            }
+
+            .card h3 {
+                font-size: 21px;
+            }
+
+            .fact {
+                font-size: 16px;
+            }
+
+            footer {
+                font-size: 13px;
+            }
+        }
+
+        @media(max-width: 380px) {
+            nav {
+                gap: 9px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">🐝 BEE CLUB</div>
+
+        <nav>
+            <a href="#home">Главная</a>
+            <a href="#story">История</a>
+            <a href="#people">Герои</a>
+            <a href="#gallery">Галерея</a>
+            <a href="#facts">Факты</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ГЛАВНАЯ -->
+        <section class="hero" id="home">
+            <div class="bee">🐝</div>
+
+            <h1>
+                ПЧЕЛИНАЯ<br>
+                <span>ИМПЕРИЯ</span>
+            </h1>
+
+            <p>
+                Зухра и Алёна — легенды района
+                в 40 метрах от вас!
+                Самая загадочная компания, самые невероятные истории
+                и бесконечное количество мёда 🍯
+            </p>
+
+            <a href="#story" class="button">Узнать легенду ✨</a>
+
+            <div class="bee" style="margin-top:35px;">🍯</div>
+        </section>
+
+        <!-- ИСТОРИЯ -->
+        <section id="story">
+            <h2 class="section-title">📖 Наша легенда</h2>
+            <p class="subtitle">История, которую невозможно забыть</p>
+
+            <div class="story">
+                🐝 Зухра — необыкновенная пчеловодка, которая живёт своей
+                интересной жизнью, полной загадок, приключений и неожиданных
+                знакомств. Говорят, её можно найти всего в 40 метрах от вас!
+                <br><br>
+                💗 Но есть у этой истории ещё одна главная героиня —
+                Алёна, богиня синяка и сестра ЛПЕ. Личность загадочная,
+                характер легендарный, а приключения с ней никогда не заканчиваются.
+                <br><br>
+                🌸 Рядом с ними всегда крутятся Элина, Кристина,
+                София и Замир. У каждого своя история, свои секреты
+                и своё место в этой необычной компании.
+                <br>
+                <br>
+                ✨ Особое место в этой истории занимает Хайфо —
+                имя, которое невозможно оставить без внимания.
+                <br><br>Зухра и Алёна — настоящие легенды своего района.
+                Их знают, обсуждают и пытаются разгадать.
+                А пчёлки всегда на страже!
+            </div>
+        </section>
+
+        <!-- ГЕРОИ -->
+        <section class="people" id="people">
+            <h2 class="section-title">🍯 Главные герои</h2>
+            <p class="subtitle">Знакомьтесь с участниками пчелиной империи</p>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="emoji">👑🐝</div>
+                    <h3>Зухра</h3>
+                    <p>Главная пчеловодка. Хранительница мёда и загадок.</p>
+                </div>
+
+                <div class="card">
+                    <div class="emoji">💗✨</div>
+                    <h3>Алёна</h3>
+                    <p>Богиня синяка. Легендарная личность и сестра ЛПЕ.</p>
+                </div>
+
+                <div class="card">
+                    <div class="emoji">🌷</div>
+                    <h3>Элина</h3>
+                    <p>Важная часть великой компании.</p>
+                </div>
+
+                <div class="card">
+                    <div class="emoji">🦋</div>
+                    <h3>Кристина</h3>
+                    <p>Без неё история была бы совсем другой.</p>
+                </div>
+
+                <div class="card">
+                    <div class="emoji">🌼</div>
+                    <h3>София</h3>
+                    <p>Участница легендарной команды.</p>
+                </div>
+
+                <div class="card">
+                    <div class="emoji">🐻</div>
+                    <h3>Замир</h3>
+                    <p>Один из персонажей этой необычной истории.</p>
+                </div>
+
+                <div class="card">
+                    <div class="emoji">🌟</div>
+                    <h3>Хайфо</h3>
+                    <p>Загадочное имя, которое нельзя игнорировать.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ГАЛЕРЕЯ -->
+        <section class="gallery" id="gallery">
+            <h2 class="section-title">📸 Галерея легенд</h2>
+            <p class="subtitle">
+                Самые незабываемые моменты пчелиной империи
+            </p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://i.pinimg.com/originals/59/cf/17/59cf17033fca140bb05f6cbdd8ab8722.jpg" alt="Зухра">
+                    <p>👑 Зухра — легенда</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="https://avatars.mds.yandex.net/i?id=9dcc0df2fff894e52feaf8fdc8ccddc4_l-5248605-images-thumbs&n=13" alt="Алёна">
+                    <p>💗 Алёна — богиня синяка</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="https://avatars.mds.yandex.net/i?id=7f53f605286440efe797d4d620f56b39_l-4860111-images-thumbs&n=13p" alt="Компания">
+                    <p>🐝 Пчелиная команда</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/065/945/236/small_2x/wooden-gate-in-a-serene-autumn-landscape-with-vibrant-foliage-and-a-tranquil-path-free-photo.jpeg" alt="Друзья">
+                    <p>🍯 Моменты истории</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="https://i.pinimg.com/originals/f0/03/e4/f003e464ca125c7810e40233d5a847a6.jpg" alt="Архив">
+                    <p>✨ Легендарный архив</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="https://avatars.mds.yandex.net/i?id=5f4c2de515cf3467f422ec7e2568361872e83d8e-11846685-images-thumbs&n=13" alt="Приключения">
+                    <p>🌸 Наши приключения</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ФАКТЫ -->
+        <section class="facts" id="facts">
+            <h2 class="section-title">🔍 Секретные факты</h2>
+            <p class="subtitle">Архив пчелиной империи</p>
+
+            <div class="fact">🐝 Зухру можно встретить в 40 метрах от вас.</div>
+            <div class="fact">🍯 Мёд — официальная валюта компании.</div>
+            <div class="fact">👑 Алёна — богиня синяка.</div>
+            <div class="fact">✨ Хайфо — одна из главных загадок истории.</div>
+            <div class="fact">💗 Пчелиная империя никогда не сдаётся!</div>
+        </section>
+
+        <!-- ДЕВИЗ -->
+        <section class="motto">
+            <div class="bee">🐝</div>
+
+            <h2>
+                «Если жизнь подкинула мёд и синяк —
+                значит, приключения только начинаются!»
+            </h2>
+
+            <p style="font-size:30px; margin-top:20px;">
+                🍯🐝💙
+            </p>
+        </section>
+    </main>
+
+    <!-- ПОДВАЛ -->
+    <footer>
+        🐝 BEE CLUB © 2026 | Сделано с мёдом и любовью 🍯<br>
+        © MADE BY SOFIYHKA
+    </footer>
+
+    <!-- ОКНО ДЛЯ ФОТО -->
+    <div class="lightbox" id="lightbox">
+        <button id="closeLightbox" aria-label="Закрыть">×</button>
+        <img id="lightboxImg" src="" alt="Увеличенное фото">
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.gallery-item img');
+            const lightbox = document.getElementById('lightbox');
+            const bigImage = document.getElementById('lightboxImg');
+            const closeButton = document.getElementById('closeLightbox');
+
+            // Открытие фотографии
+            images.forEach(function(img) {
+                img.addEventListener('click', function() {
+                    bigImage.src = img.src;
+                    bigImage.alt = img.alt;
+                    lightbox.classList.add('active');
+                });
+            });
+
+            // Закрытие кнопкой
+            closeButton.addEventListener('click', function() {
+                lightbox.classList.remove('active');
+            });
+
+            // Закрытие нажатием на фон
+            lightbox.addEventListener('click', function(event) {
+                if (event.target === lightbox) {
+                    lightbox.classList.remove('active');
+                }
+            });
+
+            // Закрытие клавишей Escape
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    lightbox.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
